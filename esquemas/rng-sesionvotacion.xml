@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0" xmlns:xim="http://ximdex.com/schema/1.0">
+       	<start>
+       		<element name ="docxap">
+       			<ref name="resultado.class"/>
+       		</element>
+       	</start>
+       	<define name="resultado.class">
+       		<element name="Resultado">
+       			<ref name="informacion.class"/>
+                    	<ref name="totales.class"/>
+                    	<ref name="votaciones.class"/>
+       		</element>
+       	</define>
+    	<define name="informacion.class">
+       		<element name="Informacion">
+                    	<element name="Sesion">
+                                  <text/>
+                                  <xim:default_content>[Sesion]</xim:default_content>
+                          </element>
+                    	<element name="NumeroVotacion">
+                                  <text/>
+                                  <xim:default_content>[NumeroVotacion]</xim:default_content>
+                          </element>
+                    	<element name="Fecha">
+                                  <text/>
+                                  <xim:default_content>[Fecha]</xim:default_content>
+                          </element>
+                    	<element name="Titulo">
+                                  <text/>
+                                  <xim:default_content>[Titulo]</xim:default_content>
+                          </element>
+                    	<element name="TextoExpediente">
+                                  <text/>
+                                  <xim:default_content>[TextoExpediente]</xim:default_content>
+                          </element>
+                    	<element name="TituloSubgrupo">
+                                  <text/>
+                                  <xim:default_content>[TituloSubgrupo]</xim:default_content>
+                          </element>
+                    	<element name="TextoSubgrupo">
+                                  <text/>
+                                  <xim:default_content>[TextoSubgrupo]</xim:default_content>
+                          </element>
+       		</element>
+       	</define>
+    	<define name="totales.class">
+       		<element name="Totales">
+                    	<element name="Asentimiento">
+                                  <text/>
+                                  <xim:default_content>[Asentimiento]</xim:default_content>
+                          </element>
+                  <optional>
+                    	<element name="Presentes">
+                                  <text/>
+                                  <xim:default_content>[Presentes]</xim:default_content>
+                          </element>
+                  </optional>
+                  <optional>
+                    	<element name="AFavor">
+                                  <text/>
+                                  <xim:default_content>[AFavor]</xim:default_content>
+                          </element>
+                  </optional>
+                  <optional>
+                    	<element name="EnContra">
+                                  <text/>
+                                  <xim:default_content>[EnContra]</xim:default_content>
+                          </element>
+                  </optional>
+                  <optional>
+                    	<element name="Abstenciones">
+                                  <text/>
+                                  <xim:default_content>[Abstenciones]</xim:default_content>
+                          </element>
+                  </optional>
+                  <optional>
+                    	<element name="NoVotan">
+                                  <text/>
+                                  <xim:default_content>[NoVotan]</xim:default_content>
+                          </element>
+                  </optional>
+       		</element>
+       	</define>
+       	<define name="votaciones.class">
+       		<element name="Votaciones">
+                  	<zeroOrMore>
+       				<ref name="votacion.class"/>
+       			</zeroOrMore>
+       		</element> 
+       	</define>
+    	<define name="votacion.class">
+       		<element name="Votacion">
+       			<element name="Asiento">
+                                  <text/>
+                                  <xim:default_content>[Asiento]</xim:default_content>
+                          </element>
+                    	<element name="Diputado">
+                                  <text/>
+                                  <xim:default_content>[Diputado]</xim:default_content>
+                          </element>
+                    	<element name="Grupo">
+                                  <text/>
+                                  <xim:default_content>[Grupo]</xim:default_content>
+                          </element>
+                    	<element name="Voto">
+                                  <text/>
+                                  <xim:default_content>[Voto]</xim:default_content>
+                          </element>
+       		</element> 
+       	</define>
+</grammar>
