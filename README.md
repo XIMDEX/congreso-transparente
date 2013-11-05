@@ -2,6 +2,8 @@
 
 ![Esquema del proceso implementado para el Congreso Transparente](congreso-transparente.png "Exquema del proceso implementado para el Congreso Transparente")
 
+##Introducción
+
 Este proyecto muestra de forma simple e integrada todas las votaciones en las sesiones plenarias del Congreso de los Diputados de España. Para ello hace uso de los XMLs que la página web del Congreso publica después de cada sesión y directamente los inserta en el CMS Ximdex que reconoce nativamente el formato XML y lo transforma en HTML para su posterior visualización del contenido de cada documento en Internet.
 
 ##Motivación
