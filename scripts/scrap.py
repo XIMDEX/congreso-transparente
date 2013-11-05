@@ -57,12 +57,9 @@ def handle(all_flag = 1):
     if all_flag:
         base_url1 = 'http://www.congreso.es/votaciones/OpenData?sesion='
         base_url2 = '&completa=1&legislatura=' + str(ACTUAL_TERM)
-        first = 138
-        # last_voting = Voting.objects.latest('session')
-        # if last_voting:
-        #     last = last_voting.session.id
-        # else:
-        #     last = 88
+	# TODO Marcar el inicio y el fin de las peticiones a las sesiones
+	# Nota: En el futuro se automatizara esta tarea recuperando la ultima sesion
+        first = 1
         last = 200
         print str(first) + ' - ' + str(last)
         for i in range(first, last):
