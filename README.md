@@ -1,5 +1,7 @@
 #Congreso Transparente
 
+![Esquema del proceso implementado para el Congreso Transparente](congreso-transparente.svg "Exquema del proceso implementado para el Congreso Transparente")
+
 Este proyecto muestra de forma simple e integrada todas las votaciones en las sesiones plenarias del Congreso de los Diputados de España. Para ello hace uso de los XMLs que la página web del Congreso publica después de cada sesión y directamente los inserta en el CMS Ximdex que reconoce nativamente el formato XML y lo transforma en HTML para su posterior visualización del contenido de cada documento en Internet.
 
 ##Motivación
@@ -36,6 +38,6 @@ Este proceso se basa en cuatro apartados:
 - **Scraping**: Los documentos en los que se muestran las votaciones del Congreso de los Diputados están en una web concreta del sitio web de la institución por lo que hay que acceder a los diferentes recursos de forma automática para obtenerlos.
 - **Recolección**: Dada la tarea anterior se automatiza la recogida de recursos de la web para así obtenerlos todos. Estos documentos se aglutinan en un fichero comprimido, el cual debe ser descomprimido y luego trabajar con los documentos XMl que incluye. Se obtiene un documento XML por cada votación realizada.
 - **Inyección**: Con todos los documentos XML que se obtienen en el paso anterior se le aplica un proceso de inyección haciendo uso de la API que Ximdex define. Para ello se genera por cada documento una primera petición de acceso al sistema para autenticarse en el mismo y a continuación se realiza la creación y asignación de contenido. Además, en cada paso, se inyecta al documento índice (index-ides.html) una referencia a todo aquel documento procesado.
-- **Publicación**: Por último se publica cada documento para que sea transformado teniendo en cuenta las plantillas implementadas en el paso **Esquemas y plantillas**.
+- **Publicación**: Por último se publica cada documento para que sea transformado teniendo en cuenta las plantillas implementadas en el paso [Esquemas y plantillas](#esquemas-y-plantillas).
 
 

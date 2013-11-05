@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created by diasvg.py -->
+<svg width="40.820cm" height="29.560cm" viewBox="4.200 4.750 45.020 34.310"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+<path stroke="none" fill="#FFFFFF" stroke-width="0.100" d="M 4.369,6.083 C 6.001,5.121 6.817,4.800 8.450,4.800 C 10.083,4.800 10.899,5.121 12.531,6.083 L 12.531,11.217 C 10.899,12.179 10.083,12.500 8.450,12.500 C 6.817,12.500 6.001,12.179 4.369,11.217 L 4.369,6.083 "/>
+<path stroke="#000000" fill="none" stroke-width="0.100"  d="M 4.369,6.083 C 6.001,5.121 6.817,4.800 8.450,4.800 C 10.083,4.800 10.899,5.121 12.531,6.083 L 12.531,11.217 C 10.899,12.179 10.083,12.500 8.450,12.500 C 6.817,12.500 6.001,12.179 4.369,11.217 L 4.369,6.083 "/>
+<path stroke="#000000" fill="none" stroke-width="0.100"  d="M 4.369,6.083 C 6.001,7.046 6.817,7.367 8.450,7.367 C 10.083,7.367 10.899,7.046 12.531,6.083 "/>
+<text x="8.450" y="9.574"  fill="#000000" text-anchor="middle" font-size="1.13" font-family="sans" font-style="normal" font-weight="400">
+Congreso.es</text>
+<rect x="17.850" y="6.250" width="8.500" height="5.150" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="17.850" y="6.250" width="8.500" height="5.150" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="22.100" y="9.101"  fill="#000000" text-anchor="middle" font-size="1.13" font-family="sans" font-style="normal" font-weight="400">
+Scraper</text>
+<rect x="17.835" y="13.905" width="8.500" height="5.150" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="17.835" y="13.905" width="8.500" height="5.150" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="22.085" y="16.756"  fill="#000000" text-anchor="middle" font-size="1.13" font-family="sans" font-style="normal" font-weight="400">
+Recolección</text>
+<path stroke="none" fill="#FFFFFF" stroke-width="0.100" d="M 31.835,24.117 C 33.738,22.792 34.690,22.350 36.593,22.350 C 38.496,22.350 39.447,22.792 41.350,24.117 L 41.350,31.183 C 39.447,32.508 38.496,32.950 36.593,32.950 C 34.690,32.950 33.738,32.508 31.835,31.183 L 31.835,24.117 "/>
+<path stroke="#000000" fill="none" stroke-width="0.100"  d="M 31.835,24.117 C 33.738,22.792 34.690,22.350 36.593,22.350 C 38.496,22.350 39.447,22.792 41.350,24.117 L 41.350,31.183 C 39.447,32.508 38.496,32.950 36.593,32.950 C 34.690,32.950 33.738,32.508 31.835,31.183 L 31.835,24.117 "/>
+<path stroke="#000000" fill="none" stroke-width="0.100"  d="M 31.835,24.117 C 33.738,25.442 34.690,25.883 36.593,25.883 C 38.496,25.883 39.447,25.442 41.350,24.117 "/>
+<text x="36.593" y="28.816"  fill="#000000" text-anchor="middle" font-size="1.13" font-family="sans" font-style="normal" font-weight="400">
+XimdexCMS</text>
+<path stroke="none" fill="#FFFFFF" stroke-width="0.100" d="M 4.250,13.000 L 7.200,13.000 L 7.200,14.714 C 6.610,14.429 6.315,14.429 5.725,14.714 C 5.135,15.000 4.840,15.000 4.250,14.714 L 4.250,13.000 "/>
+<path stroke="#000000" fill="none" stroke-width="0.100"  d="M 4.250,13.000 L 7.200,13.000 L 7.200,14.714 C 6.610,14.429 6.315,14.429 5.725,14.714 C 5.135,15.000 4.840,15.000 4.250,14.714 L 4.250,13.000 "/>
+<text x="5.725" y="13.914"  fill="#000000" text-anchor="middle" font-size="0.80" font-family="sans" font-style="normal" font-weight="400">
+XML</text>
+<path stroke="none" fill="#FFFFFF" stroke-width="0.100" d="M 9.535,13.005 L 12.485,13.005 L 12.485,14.719 C 11.895,14.434 11.600,14.434 11.010,14.719 C 10.420,15.005 10.125,15.005 9.535,14.719 L 9.535,13.005 "/>
+<path stroke="#000000" fill="none" stroke-width="0.100"  d="M 9.535,13.005 L 12.485,13.005 L 12.485,14.719 C 11.895,14.434 11.600,14.434 11.010,14.719 C 10.420,15.005 10.125,15.005 9.535,14.719 L 9.535,13.005 "/>
+<text x="11.010" y="13.919"  fill="#000000" text-anchor="middle" font-size="0.80" font-family="sans" font-style="normal" font-weight="400">
+XML</text>
+<text x="8.000" y="14.450"  fill="#000000" text-anchor="start" font-size="1.13" font-family="sans" font-style="normal" font-weight="400">
+...</text>
+<rect x="17.885" y="21.555" width="8.500" height="5.150" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="17.885" y="21.555" width="8.500" height="5.150" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="22.135" y="24.406"  fill="#000000" text-anchor="middle" font-size="1.13" font-family="sans" font-style="normal" font-weight="400">
+Inyección</text>
+<rect x="17.920" y="29.110" width="8.500" height="5.150" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="17.920" y="29.110" width="8.500" height="5.150" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="22.170" y="31.961"  fill="#000000" text-anchor="middle" font-size="1.13" font-family="sans" font-style="normal" font-weight="400">
+Publicación</text>
+<polygon fill="#FFFFFF" stroke="none" stroke-width="0.100" points="21.519,11.700 21.519,12.638 21.050,12.638 21.987,13.575 22.925,12.638 22.456,12.638 22.456,11.700 "/>
+<polygon fill="none" stroke="#000000" stroke-width="0.100"  points="21.519,11.700 21.519,12.638 21.050,12.638 21.987,13.575 22.925,12.638 22.456,12.638 22.456,11.700 "/>
+<polygon fill="none" stroke="#000000" stroke-width="0.100"  points="21.519,11.700 21.519,12.638 21.050,12.638 21.987,13.575 22.925,12.638 22.456,12.638 22.456,11.700 "/>
+<polygon fill="#FFFFFF" stroke="none" stroke-width="0.100" points="21.524,19.355 21.524,20.293 21.056,20.293 21.993,21.230 22.931,20.293 22.462,20.293 22.462,19.355 "/>
+<polygon fill="none" stroke="#000000" stroke-width="0.100"  points="21.524,19.355 21.524,20.293 21.056,20.293 21.993,21.230 22.931,20.293 22.462,20.293 22.462,19.355 "/>
+<polygon fill="none" stroke="#000000" stroke-width="0.100"  points="21.524,19.355 21.524,20.293 21.056,20.293 21.993,21.230 22.931,20.293 22.462,20.293 22.462,19.355 "/>
+<polygon fill="#FFFFFF" stroke="none" stroke-width="0.100" points="21.509,26.960 21.509,27.898 21.041,27.898 21.978,28.835 22.916,27.898 22.447,27.898 22.447,26.960 "/>
+<polygon fill="none" stroke="#000000" stroke-width="0.100"  points="21.509,26.960 21.509,27.898 21.041,27.898 21.978,28.835 22.916,27.898 22.447,27.898 22.447,26.960 "/>
+<polygon fill="none" stroke="#000000" stroke-width="0.100"  points="21.509,26.960 21.509,27.898 21.041,27.898 21.978,28.835 22.916,27.898 22.447,27.898 22.447,26.960 "/>
+<polygon fill="#FFFFFF" stroke="none" stroke-width="0.100" points="26.900,24.238 29.075,24.238 29.075,23.700 31.250,24.775 29.075,25.850 29.075,25.313 26.900,25.313 "/>
+<polygon fill="none" stroke="#000000" stroke-width="0.100"  points="26.900,24.238 29.075,24.238 29.075,23.700 31.250,24.775 29.075,25.850 29.075,25.313 26.900,25.313 "/>
+<polygon fill="none" stroke="#000000" stroke-width="0.100"  points="26.900,24.238 29.075,24.238 29.075,23.700 31.250,24.775 29.075,25.850 29.075,25.313 26.900,25.313 "/>
+<polygon fill="#FFFFFF" stroke="none" stroke-width="0.100" points="26.885,29.923 29.060,29.923 29.060,29.385 31.235,30.460 29.060,31.535 29.060,30.998 26.885,30.998 "/>
+<polygon fill="none" stroke="#000000" stroke-width="0.100"  points="26.885,29.923 29.060,29.923 29.060,29.385 31.235,30.460 29.060,31.535 29.060,30.998 26.885,30.998 "/>
+<polygon fill="none" stroke="#000000" stroke-width="0.100"  points="26.885,29.923 29.060,29.923 29.060,29.385 31.235,30.460 29.060,31.535 29.060,30.998 26.885,30.998 "/>
+<path stroke="none" fill="#FFFFFF" stroke-width="0.100" d="M 41.835,24.955 L 44.785,24.955 L 44.785,26.669 C 44.195,26.384 43.900,26.384 43.310,26.669 C 42.720,26.955 42.425,26.955 41.835,26.669 L 41.835,24.955 "/>
+<path stroke="#000000" fill="none" stroke-width="0.100"  d="M 41.835,24.955 L 44.785,24.955 L 44.785,26.669 C 44.195,26.384 43.900,26.384 43.310,26.669 C 42.720,26.955 42.425,26.955 41.835,26.669 L 41.835,24.955 "/>
+<text x="43.310" y="25.869"  fill="#000000" text-anchor="middle" font-size="0.80" font-family="sans" font-style="normal" font-weight="400">
+XSLs</text>
+<path stroke="none" fill="#FFFFFF" stroke-width="0.100" d="M 41.885,27.405 L 44.835,27.405 L 44.835,29.119 C 44.245,28.834 43.950,28.834 43.360,29.119 C 42.770,29.405 42.475,29.405 41.885,29.119 L 41.885,27.405 "/>
+<path stroke="#000000" fill="none" stroke-width="0.100"  d="M 41.885,27.405 L 44.835,27.405 L 44.835,29.119 C 44.245,28.834 43.950,28.834 43.360,29.119 C 42.770,29.405 42.475,29.405 41.885,29.119 L 41.885,27.405 "/>
+<text x="43.360" y="28.319"  fill="#000000" text-anchor="middle" font-size="0.80" font-family="sans" font-style="normal" font-weight="400">
+RNGs</text>
+<path stroke="none" fill="#FFFFFF" stroke-width="0.100" d="M 42.020,29.810 L 44.970,29.810 L 44.970,31.524 C 44.380,31.239 44.085,31.239 43.495,31.524 C 42.905,31.810 42.610,31.810 42.020,31.524 L 42.020,29.810 "/>
+<path stroke="#000000" fill="none" stroke-width="0.100"  d="M 42.020,29.810 L 44.970,29.810 L 44.970,31.524 C 44.380,31.239 44.085,31.239 43.495,31.524 C 42.905,31.810 42.610,31.810 42.020,31.524 L 42.020,29.810 "/>
+<text x="43.495" y="30.724"  fill="#000000" text-anchor="middle" font-size="0.80" font-family="sans" font-style="normal" font-weight="400">
+Index</text>
+<polygon fill="#FFFFFF" stroke="none" stroke-width="0.100" points="16.288,8.275 14.063,8.275 14.063,7.719 12.950,8.831 14.063,9.944 14.063,9.387 16.288,9.387 16.288,9.944 17.400,8.831 16.288,7.719 "/>
+<polygon fill="none" stroke="#000000" stroke-width="0.100"  points="16.288,8.275 14.063,8.275 14.063,7.719 12.950,8.831 14.063,9.944 14.063,9.387 16.288,9.387 16.288,9.944 17.400,8.831 16.288,7.719 "/>
+<polygon fill="none" stroke="#000000" stroke-width="0.100"  points="16.288,8.275 14.063,8.275 14.063,7.719 12.950,8.831 14.063,9.944 14.063,9.387 16.288,9.387 16.288,9.944 17.400,8.831 16.288,7.719 "/>
+</svg>
