@@ -43,3 +43,16 @@ Este proceso se basa en cuatro apartados:
 - **Publicación**: Por último se publica cada documento para que sea transformado teniendo en cuenta las plantillas implementadas en el paso [Esquemas y plantillas](#esquemas-y-plantillas).
 
 
+##Descripción de los ficheros
+* **esquemas/rng-index.xml**: Esquema de documento XML para el fichero 'index'.
+* **esquemas/rng-sesionvotacion.xml**: Esquema de documento XML para los ficheros de resultado de las votaciones.
+* **plantillas/*.xsl**: Plantillas XSL que servirán en este caso para costruir el sitio web que se muestra [aquí](http://ximdex.github.io/congreso-transparente "Web del repositorio"). Todas las carpetas de plantillas en XimdexCMS deben tener un fichero 'docxap.xsl' como base, otro 'templates_include.xsl' donde se insertan las referencias y tantos otros ficheros como estructura/as XML se quiera transformar.
+* **scripts/loader.php**: Programa que se comunica con la API de XimdexCMS con el fin de inyectar el contenido de una votación en el sistema.
+* **scripts/publish-index.php**: Programa que se comunica con la API de XimdexCMS con el fin de publicar el fichero 'index' con todas las referencias.
+* **scripts/scrap.py**: Programa que ejecuta el scraper y la recolección de documentos y llama por cada fichero XML obtenido a 'scripts/loader.php' y por último a 'scripts/publish-index.php'.
+* **LICENSE**: Licencia del código incluído en el repositorio.
+* **README.md**: Soy yo ;)
+* **congreso-transparente.dia**: Esquema del proceso implementado en formato DIA.
+* **congreso-transparente.png**: Esquema del proceso implementado en formato PNG.
+* **index.xml**: Contenido necesario para el documento 'index' que se debe generar como punto de partida del proceso con el objetivo de que sirva de contenedor de todas las votaciones (se irán referenciando en él).
+* **requirements.txt**: Fichero de requerimientos Python a la hora de montar el entorno para ejecutar el scraper. Se recomienda usar [PIP](https://pypi.python.org/pypi/pip "Página del proyecto PIP") junto con [Virtualenv](https://pypi.python.org/pypi/virtualenv "Página del proyecto Virtualenv") o de forma aislada. Ejecuta ``pip install -r requirements.txt``
