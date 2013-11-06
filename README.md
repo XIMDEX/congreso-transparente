@@ -44,6 +44,8 @@ Este proceso se basa en cuatro apartados:
 
 
 ##Descripción de los ficheros
+* **common/logo_xim.png**: Logo de Ximdex necesario para las páginas generadas (solicitado por las XSLs).
+* **css/*.css**: Estilos necesarios para las páginas generadas (solicitado por las XSLs).
 * **esquemas/rng-index.xml**: Esquema de documento XML para el fichero 'index'.
 * **esquemas/rng-sesionvotacion.xml**: Esquema de documento XML para los ficheros de resultado de las votaciones.
 * **plantillas/*.xsl**: Plantillas XSL que servirán en este caso para costruir el sitio web que se muestra [aquí](http://ximdex.github.io/congreso-transparente "Web del repositorio"). Todas las carpetas de plantillas en XimdexCMS deben tener un fichero 'docxap.xsl' como base, otro 'templates_include.xsl' donde se insertan las referencias y tantos otros ficheros como estructura/as XML se quiera transformar.
