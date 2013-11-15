@@ -71,6 +71,14 @@ body {
   border-right-color: #86d4e2;
 }
 
+.brand-header {
+  color: #4f4f4f;
+  padding-top: 1.8em;
+}
+
+.brand-header > a > img {
+  height: 22px;
+}
 .content{
   padding: 3em 2em;
 }
