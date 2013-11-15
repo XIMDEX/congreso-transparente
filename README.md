@@ -45,6 +45,7 @@ Este proceso se basa en cuatro apartados:
 
 ##Descripción de los ficheros
 * **common/logo_xim.png**: Logo de Ximdex necesario para las páginas generadas (solicitado por las XSLs).
+* **common/logo_ximdex.png**: Logo de Ximdex necesario para las páginas generadas (solicitado por las XSLs).
 * **css/*.css**: Estilos necesarios para las páginas generadas (solicitado por las XSLs).
 * **esquemas/rng-index.xml**: Esquema de documento XML para el fichero 'index'.
 * **esquemas/rng-sesionvotacion.xml**: Esquema de documento XML para los ficheros de resultado de las votaciones.
