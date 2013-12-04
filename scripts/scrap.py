@@ -4,10 +4,17 @@ import requests
 import os
 import re
 
-# Este parametro marca la Legislatura actual en el Congreo de los Diputados para realizar el scraping
 ACTUAL_TERM = 10
-# TODO: Indicar aqui la ruta local donde se quieren guardar los ficheros que se vayan descargando con el scraper
-MEDIA_ROOT = '/home/username/temporal'
+MEDIA_ROOT = '/home/pmartin/tmp/playingwithapis/scraper'
+
+# url = raw_input("Enter an url: ") 
+# r = requests.get("http://" +url)
+# data = r.text
+# soup = BeautifulSoup(data)
+# for link in soup.find_all('a'):
+#     print(link.get('href'))
+# for images in soup.find_all('img'):
+#     print(images.get('src')
 
 def get_file(url, path):
     r = requests.get(url)
@@ -46,9 +53,9 @@ def common_handle(url):
             extract_files(pathzip, pathxml)
         if os.path.isdir(pathxml):
             for xml in os.listdir(pathxml):
-                mystring = "php loader.php {0}"
+                mystring = "php ../loader.php {0}"
                 os.system(mystring.format(pathxml + '/' + xml))
-            os.system("php publish-index.php")
+            os.system("php ../publish-index.php")
     except Exception, e:
         print pathzip
         print e
@@ -57,9 +64,12 @@ def handle(all_flag = 1):
     if all_flag:
         base_url1 = 'http://www.congreso.es/votaciones/OpenData?sesion='
         base_url2 = '&completa=1&legislatura=' + str(ACTUAL_TERM)
-	# TODO Marcar el inicio y el fin de las peticiones a las sesiones
-	# Nota: En el futuro se automatizara esta tarea recuperando la ultima sesion
-        first = 1
+        first = 148
+        # last_voting = Voting.objects.latest('session')
+        # if last_voting:
+        #     last = last_voting.session.id
+        # else:
+        #     last = 88
         last = 200
         print str(first) + ' - ' + str(last)
         for i in range(first, last):

@@ -1,8 +1,7 @@
 <?php
 
 function execute_call($service = "", $data = array()) {
-	// TODO Cambiar la URL de Ximdex
-    $ch = curl_init("http://ximdex_url/api/$service");
+    $ch = curl_init("http://192.168.100.212/ximdexcongreso/api/$service");
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -11,7 +10,6 @@ function execute_call($service = "", $data = array()) {
 }
 
 function publishIndexXML($ximtoken = "") {
-	// TODO Indicar el id del nodo 'index' de Ximdex
     $id_index = "10109";
     $data_publish = array(
         'ximtoken' => $ximtoken,
@@ -22,9 +20,8 @@ function publishIndexXML($ximtoken = "") {
     // var_dump($result_json);
 }
 
-// TODO Insertar el usuario y la password de Ximdex con permisos de administración
-$user = "";
-$pass = "";
+$user = "ximdex";
+$pass = "ximdex";
 $data_login = array(
     'user' => $user,
     'pass' => $pass,
