@@ -181,13 +181,6 @@ if ($result_json->error == 0) {
     if ($result_json->error == 0) {
         $nodeid = $result_json->data->container_langs->es->nodeid;
         $rp_filename = realpath($argv[1]);
-        $curldatafile = new CurlFile($rp_filename, 'text/xml', 'content');
-        $data_request_2 = array(
-            'ximtoken' => $ximtoken,
-            'nodeid' => $nodeid,
-            'file' => $curldatafile,
-        );
-        // $result = execute_call("node/contentxml", $data_request_2);
         $result = exec("curl -X POST --data-urlencode content@$rp_filename --data \"ximtoken=$ximtoken&nodeid=$nodeid\" http://192.168.100.212/ximdexcongreso/api/node/contentxml");
         $result_json = json_decode($result);
         var_dump($result_json);
