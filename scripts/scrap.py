@@ -53,9 +53,9 @@ def common_handle(url):
             extract_files(pathzip, pathxml)
         if os.path.isdir(pathxml):
             for xml in os.listdir(pathxml):
-                mystring = "php ../loader.php {0}"
+                mystring = "php loader.php {0}"
                 os.system(mystring.format(pathxml + '/' + xml))
-            os.system("php ../publish-index.php")
+            os.system("php publish-index.php")
     except Exception, e:
         print pathzip
         print e
