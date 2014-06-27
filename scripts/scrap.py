@@ -5,7 +5,7 @@ import os
 import re
 
 ACTUAL_TERM = 10
-MEDIA_ROOT = '/home/pmartin/tmp/playingwithapis/scraper'
+MEDIA_ROOT = '/PATH/TO/YOUR/SCRAPPER/TEMP/FOLDER'
 
 # url = raw_input("Enter an url: ") 
 # r = requests.get("http://" +url)
