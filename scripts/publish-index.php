@@ -8,7 +8,6 @@ function execute_call($service = "", $data = array()) {
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array());
     return curl_exec($ch);
 }
 
@@ -21,14 +20,12 @@ function publishIndexXML($ximtoken = "") {
     );
     $result = execute_call("node/publish", $data_publish);
     $result_json = json_decode($result);
-    // var_dump($result_json);
+    echo "publish index result:\n"; print_r($result_json); echo "\n";
 }
 
-$user = $XIMDEX_USER;
-$pass = $XIMDEX_PASS;
 $data_login = array(
-    'user' => $user,
-    'pass' => $pass,
+    'user' => $XIMDEX_USER,
+    'pass' => $XIMDEX_PASS,
 );
 $result = execute_call("login", $data_login);
 $result_json = json_decode($result);

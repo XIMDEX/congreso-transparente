@@ -6,13 +6,19 @@ include './config.php';
  * Este fichero acepta como parámetro un xml a procesar.
 */
 
+function addContent($fn, $ximtoken, $id_index) {
+   global $SERVER_URL_XIMDEX_INSTANCE;
+
+   $result = exec("curl -X POST --data-urlencode content@$fn --data \"ximtoken=$ximtoken&nodeid=$id_index\" ".$SERVER_URL_XIMDEX_INSTANCE."/api/node/contentxml");
+   return $result;
+}
+
 function execute_call($service = "", $data = array()) {
     global $SERVER_URL_XIMDEX_INSTANCE;
     $ch = curl_init($SERVER_URL_XIMDEX_INSTANCE."/api/$service");
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array());
     return curl_exec($ch);
 }
 
@@ -66,11 +72,13 @@ function insertIntoIndexXML($ximtoken = "", $id_element = "", $sesion = "", $vot
     );
     $result = execute_call("node/getcontent", $data_request);
     $result_json = json_decode($result);
+
     if ($result_json->error == 0) {
         $domDoc = new DOMDocument();
         $domDoc->preserveWhiteSpace = false;
         $domDoc->validateOnParse = true;
         $domDoc->formatOutput = true;
+
         if ($domDoc->loadXML($result_json->data)) {
             $xpathObj = new DOMXPath($domDoc);
             $nodeList0 = $xpathObj->query("/Sess/Ses[Numero=$sesion]");
@@ -83,9 +91,6 @@ function insertIntoIndexXML($ximtoken = "", $id_element = "", $sesion = "", $vot
                     if ($votes->length > 0) {
                         //La votacion ya existe
                         echo "Existe votacion", PHP_EOL;
-                        // foreach ($votes as $value_) {
-                        //     var_dump($value_);
-                        // }
                     }
                     else {
                         $votes_ = $xpathObj->query("Vots", $value)->item(0);
@@ -132,17 +137,7 @@ function insertIntoIndexXML($ximtoken = "", $id_element = "", $sesion = "", $vot
         fwrite($fh, $dd_final);
         fclose($fh);
         $fn = realpath("index.tmp");
-        $result = exec("curl -X POST --data-urlencode content@$fn --data \"ximtoken=$ximtoken&nodeid=$id_index\" ".$SERVER_URL_XIMDEX_INSTANCE."/api/node/contentxml");
-        // $data_publish = array(
-        //     'ximtoken' => $ximtoken,
-        //     'nodeid' => $id_index,
-        // );
-        // $result = execute_call("node/publish", $data_publish);
-        // $result_json = json_decode($result);
-        // var_dump($result_json);
-    }
-    else {
-        //
+        addContent($fn, $ximtoken, $id_index);
     }
 }
 
@@ -160,10 +155,10 @@ $data_login = array(
 );
 $result = execute_call("login", $data_login);
 $result_json = json_decode($result);
-echo "login: \n"; print_r($result_json); echo "\n";
+
 if ($result_json->error == 0) {
     $ximtoken = $result_json->data->ximtoken;
-    // echo "XIMTOKEN: $ximtoken\n";
+
     $xml_node_type = "5032";
     $document_folder_id = $DOCUMENT_FOLDER_ID;
     $rng_node = $RNG_NODE_ID;
@@ -179,34 +174,40 @@ if ($result_json->error == 0) {
     );
     $result = execute_call("node/createxml", $data_request_1);
     $result_json = json_decode($result);
-    var_dump($result_json);
+
     if ($result_json->error == 0) {
         $nodeid = $result_json->data->container_langs->es->nodeid;
         $rp_filename = realpath($argv[1]);
-        $result = exec("curl -X POST --data-urlencode content@$rp_filename --data \"ximtoken=$ximtoken&nodeid=$nodeid\" ".$SERVER_URL_XIMDEX_INSTANCE."/api/node/contentxml");
+        $result = addContent($rp_filename, $ximtoken, $nodeid);
         $result_json = json_decode($result);
-        var_dump($result_json);
-        if ($result_json->error == 0) {
+
+        if (gettype($result_json) !== 'NULL' && $result_json->error == 0) {
             $data_publish = array(
                 'ximtoken' => $ximtoken,
                 'nodeid' => $nodeid,
             );
             $result = execute_call("node/publish", $data_publish);
             $result_json = json_decode($result);
-            // var_dump($result_json);
-            insertIntoIndexXML($ximtoken,$nodeid,$sesion,$votacion,$rp_filename);
+//echo "publish result:\n"; print_r($result_json); echo "\n";
+//echo "insertIntoIndexXML: $nodeid, $sesion, $votacion, $rp_filename \n";
+            insertIntoIndexXML($ximtoken, $nodeid, $sesion, $votacion, $rp_filename);
             echo "_______________OK!\n";
         }
         else {
-            echo "An error occurred (3)\n";
+            echo "An error occurred (3): 'addContent' missing data or empty response\n";
+            if(gettype($result_json) === 'NULL') {echo "IS NULL!!\n";}
+            exit;
         }
     }
     else {
-        echo "An error occurred (2)\n";
+        echo "An error occurred (2): 'createxml' failed\n";
+        exit;
     }
 }
 else {
-    echo "An error occurred (1)\n";
+    echo "An error occurred (1): login failed\n";
+    print_r ($result_json);
+    exit;
 }
 
 ?>
