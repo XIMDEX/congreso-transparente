@@ -5,16 +5,7 @@ import os
 import re
 
 ACTUAL_TERM = 10
-MEDIA_ROOT = '/PATH/TO/YOUR/SCRAPPER/TEMP/FOLDER'
-
-# url = raw_input("Enter an url: ") 
-# r = requests.get("http://" +url)
-# data = r.text
-# soup = BeautifulSoup(data)
-# for link in soup.find_all('a'):
-#     print(link.get('href'))
-# for images in soup.find_all('img'):
-#     print(images.get('src')
+MEDIA_ROOT = '/tmp'
 
 def get_file(url, path):
     r = requests.get(url)
@@ -64,13 +55,8 @@ def handle(all_flag = 1):
     if all_flag:
         base_url1 = 'http://www.congreso.es/votaciones/OpenData?sesion='
         base_url2 = '&completa=1&legislatura=' + str(ACTUAL_TERM)
-        first = 148
-        # last_voting = Voting.objects.latest('session')
-        # if last_voting:
-        #     last = last_voting.session.id
-        # else:
-        #     last = 88
-        last = 200
+        first = 168
+        last = 169
         print str(first) + ' - ' + str(last)
         for i in range(first, last):
             url = base_url1 + str(i) + base_url2

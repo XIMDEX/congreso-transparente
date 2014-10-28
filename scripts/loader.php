@@ -1,11 +1,14 @@
 <?php
 
+include './config.php';
+
 /*
  * Este fichero acepta como parámetro un xml a procesar.
 */
 
 function execute_call($service = "", $data = array()) {
-    $ch = curl_init("http://192.168.100.212/ximdexcongreso/api/$service");
+    global $SERVER_URL_XIMDEX_INSTANCE;
+    $ch = curl_init($SERVER_URL_XIMDEX_INSTANCE."/api/$service");
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -27,12 +30,11 @@ function parse_xml_filename($filename = "") {
 }
 
 function read_and_delete_first_line($filename = "") {
-    $file = file($filename);    
+    $file = file($filename);
     $output = $file[0];
     if (strpos($output,'xml') !== false) {
         unset($file[0]);
         file_put_contents($filename, $file);
-        echo "$output\n";
         return $output;
     }
 }
@@ -55,8 +57,9 @@ function returnTitleAndDate($filename = "") {
 }
 
 function insertIntoIndexXML($ximtoken = "", $id_element = "", $sesion = "", $votacion = "", $filename = "") {
+    global $INDEX_ID,$SERVER_URL_XIMDEX_INSTANCE;
     $res = returnTitleAndDate($filename);
-    $id_index = "10109";
+    $id_index = $INDEX_ID;
     $data_request = array(
         'ximtoken' => $ximtoken,
         'nodeid' => $id_index,
@@ -129,7 +132,7 @@ function insertIntoIndexXML($ximtoken = "", $id_element = "", $sesion = "", $vot
         fwrite($fh, $dd_final);
         fclose($fh);
         $fn = realpath("index.tmp");
-        $result = exec("curl -X POST --data-urlencode content@$fn --data \"ximtoken=$ximtoken&nodeid=$id_index\" http://192.168.100.212/ximdexcongreso/api/node/contentxml");
+        $result = exec("curl -X POST --data-urlencode content@$fn --data \"ximtoken=$ximtoken&nodeid=$id_index\" ".$SERVER_URL_XIMDEX_INSTANCE."/api/node/contentxml");
         // $data_publish = array(
         //     'ximtoken' => $ximtoken,
         //     'nodeid' => $id_index,
@@ -151,20 +154,19 @@ $workingname = $voteData['full'];
 $sesion = $voteData['sesion'];
 $votacion = $voteData['votacion'];
 
-$user = "ximdex";
-$pass = "ximdex";
 $data_login = array(
-    'user' => $user,
-    'pass' => $pass,
+    'user' => $XIMDEX_USER,
+    'pass' => $XIMDEX_PASS,
 );
 $result = execute_call("login", $data_login);
 $result_json = json_decode($result);
+echo "login: \n"; print_r($result_json); echo "\n";
 if ($result_json->error == 0) {
     $ximtoken = $result_json->data->ximtoken;
     // echo "XIMTOKEN: $ximtoken\n";
     $xml_node_type = "5032";
-    $document_folder_id = "10086";
-    $rng_node = "10098";
+    $document_folder_id = $DOCUMENT_FOLDER_ID;
+    $rng_node = $RNG_NODE_ID;
     $channels = "10001";
     $languages = "es";
     $data_request_1 = array(
@@ -181,7 +183,7 @@ if ($result_json->error == 0) {
     if ($result_json->error == 0) {
         $nodeid = $result_json->data->container_langs->es->nodeid;
         $rp_filename = realpath($argv[1]);
-        $result = exec("curl -X POST --data-urlencode content@$rp_filename --data \"ximtoken=$ximtoken&nodeid=$nodeid\" http://192.168.100.212/ximdexcongreso/api/node/contentxml");
+        $result = exec("curl -X POST --data-urlencode content@$rp_filename --data \"ximtoken=$ximtoken&nodeid=$nodeid\" ".$SERVER_URL_XIMDEX_INSTANCE."/api/node/contentxml");
         $result_json = json_decode($result);
         var_dump($result_json);
         if ($result_json->error == 0) {

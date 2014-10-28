@@ -1,7 +1,10 @@
 <?php
 
+include './config.php';
+
 function execute_call($service = "", $data = array()) {
-    $ch = curl_init("http://192.168.100.212/ximdexcongreso/api/$service");
+    global $SERVER_URL_XIMDEX_INSTANCE;
+    $ch = curl_init($SERVER_URL_XIMDEX_INSTANCE."/api/$service");
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -10,7 +13,8 @@ function execute_call($service = "", $data = array()) {
 }
 
 function publishIndexXML($ximtoken = "") {
-    $id_index = "10109";
+    global $INDEX_ID;
+    $id_index = $INDEX_ID;
     $data_publish = array(
         'ximtoken' => $ximtoken,
         'nodeid' => $id_index,
@@ -20,8 +24,8 @@ function publishIndexXML($ximtoken = "") {
     // var_dump($result_json);
 }
 
-$user = "ximdex";
-$pass = "ximdex";
+$user = $XIMDEX_USER;
+$pass = $XIMDEX_PASS;
 $data_login = array(
     'user' => $user,
     'pass' => $pass,
