@@ -1,5 +1,15 @@
 <?php
 
+function cierre() {
+    $error = error_get_last();
+    echo print_r($error, true), PHP_EOL;
+}
+
+register_shutdown_function('cierre');
+
+require_once __DIR__ . '/LoaderProcessor.php';
+require_once __DIR__ . '/logger.php';
+
 /*
  * Downloads zip files, uncompress them and send to process.
  */
@@ -7,11 +17,23 @@
 class Scrapper {
 
     private $config;
+    private $ini;
     private $processor;
 
     function __construct() {
+        // Load config file
         $this->config = require_once __DIR__ . '/config.php';
-        require_once __DIR__ . '/LoaderProcessor.php';
+        if (empty($this->config)) {
+            logger('ERROR', 'failed to read config file!');
+            exit;
+        }
+        // Load data from last import
+        $this->ini = parse_ini_file($this->config['IMPORT_FILE']);
+        if (empty($this->ini) || !isset($this->ini['last_imported'])) {
+            logger('ERROR', 'failed to read ' . $this->config['IMPORT_FILE'] . ' file!');
+            exit;
+        }
+
         $this->processor = new LoaderProcessor($this->config);
     }
 
@@ -43,7 +65,7 @@ class Scrapper {
     function get_zip($url, $pathzips, $zipFile) {
         if (!is_dir($pathzips)) {
             if (!mkdir($pathzips)) {
-                echo "mkdir failed: $pathzips \n";
+                logger('ERROR', "mkdir failed: $pathzips");
                 exit;
             }
         }
@@ -64,7 +86,7 @@ class Scrapper {
     }
 
     function common_handle($url) {
-        echo "INFO common_handle: $url \n";
+        logger('INFO', "common_handle: $url");
         preg_match_all("|\d+|", $url, $match, PREG_SET_ORDER);
         $folder = '';
         foreach ($match as $num) {
@@ -75,8 +97,8 @@ class Scrapper {
         $zipFile = "{$pathxml}.zip";
 
         if (!$this->get_zip($url, $pathzipsFolder, $zipFile)) {
-            echo "WARN file not found: $url \n";
-            return;
+            logger('WARN', "file not found: $url");
+            return false;
         }
 
         if (!is_dir($pathxml)) {
@@ -91,41 +113,52 @@ class Scrapper {
                 }
             }
         }
-    }
 
-    function getParam($params, $index) {
-        if (!isset($params[$index])) {
-            echo "ERROR $index param must be present\n";
-            exit;
-        }
-        return $params[$index];
+        return true;
     }
 
     function run($params) {
-        if (empty($this->config)) {
-            echo "ERROR failed to read config file!\n";
+        logger('INFO', "==================================================");
+        logger('INFO', "Start import process");
+        logger('INFO', "==================================================");
+
+        // Clean previously downloaded files
+        $baseZips = $this->config['MEDIA_ROOT'] . "/zips";
+        if (is_dir($baseZips)) {
+            exec("rm -rf $baseZips");
+        }
+        if (!mkdir($baseZips)) {
+            logger('ERROR', "folder for files could not be created at: $baseZips");
             exit;
         }
 
-        exec("rm -rf " . $this->config['MEDIA_ROOT'] . "/zips/*");
-        $first = (int) $this->getParam($params, 1);
-        $last = (int) $this->getParam($params, 2);
-        if ($last <= $first) {
-            echo "ERROR incorrect parameters: 'last' must be greater than 'first'\n";
-        }
+        $lastImported = (int) $this->ini['last_imported'];
+        $first = $lastImported + 1;
+        $defaultCounter = (int) $this->config['IMPORT_COUNTER'];
+        $last = $first + $defaultCounter;
+        $counter = 0;
 
-        echo "$first - $last\n";
+        // Start batch import
+        logger('INFO', "start import batch from [$first to $last]");
         for ($i = $first; $i < $last; $i++) {
-            echo "INFO import $i\n";
+            logger('INFO', "importing $i");
             $url = sprintf($this->config['BASE_URL'], $i);
-            $this->common_handle($url);
+
+            if ($this->common_handle($url)) {
+                $counter++;
+                $lastImported = $i;
+            }
         }
 
         $this->processor->publishNode($this->config['INDEX_ID']);
+
+        // Log and finish
+        logger('INFO', "imported counter: $counter");
+        logger('INFO', "last imported session: $lastImported");
+        file_put_contents($this->config['IMPORT_FILE'], "last_imported = $lastImported");
     }
 
 }
 
 $main = new Scrapper();
 $main->run($argv);
-?>

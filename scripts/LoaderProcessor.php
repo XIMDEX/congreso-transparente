@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/logger.php';
+
 class LoaderProcessor {
 
     private $config = array();
@@ -81,13 +83,13 @@ class LoaderProcessor {
             return $result_json;
         } else {
             if ($result_json === null) {
-                echo "ERROR bad server response:\n";
+                logger('ERROR', 'bad server response:');
             } else if (!isset($result_json['error'])) {
-                echo "ERROR missing error field:\n";
+                logger('ERROR', 'missing error field:');
             }
 
-            echo print_r($res, true), "\n";
-            echo print_r($result_json, true), "\n";
+            logger('ERROR', print_r($res, true));
+            logger('ERROR', print_r($result_json, true));
             exit;
         }
     }
@@ -107,9 +109,8 @@ class LoaderProcessor {
 
         $domDoc = new SimpleXMLElement($result_json['data']);
         if ($domDoc === false) {
-            echo "ERROR could not parse index content as xml:\n";
-            print_r($result_json);
-            echo "\n";
+            logger('ERROR', 'could not parse index content as xml:');
+            logger('ERROR', print_r($result_json,true));
             exit;
         }
 
@@ -198,13 +199,13 @@ class LoaderProcessor {
      */
 
     function process($path) {
-        echo "path: $path\n";
+        logger('INFO', "path: $path");
         $this->read_and_delete_first_line($path);
         $voteData = $this->parse_xml_filename($path);
         $workingname = $voteData['full'];
         $sesion = $voteData['sesion'];
         $votacion = $voteData['votacion'];
-        echo "import: sesion=$sesion :: votacion=$votacion \n";
+        logger('INFO', "import: sesion=$sesion :: votacion=$votacion");
 
         // do login (get api token)
         $this->doLogin();
@@ -254,5 +255,3 @@ class LoaderProcessor {
     }
 
 }
-
-?>
