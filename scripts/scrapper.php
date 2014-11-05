@@ -34,7 +34,12 @@ class Scrapper {
             exit;
         }
 
-        $this->processor = new LoaderProcessor($this->config);
+        try {
+            $this->processor = new LoaderProcessor($this->config);
+        } catch (Exception $ex) {
+            logger("FATAL", $ex);
+            exit;
+        }
     }
 
     /*
@@ -44,6 +49,11 @@ class Scrapper {
      */
 
     function get_file($url, $zipFile) {
+        $free = (int) disk_free_space($this->config['BASE_DOWNLOAD']);
+        if ($free < $this->config['MINIMUM_FREE_SPACE']) {
+            return false;
+        }
+
         $fp = fopen($zipFile, 'w');
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -51,24 +61,19 @@ class Scrapper {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 90);
         curl_setopt($ch, CURLOPT_FILE, $fp);
         curl_exec($ch);
         curl_close($ch);
         fclose($fp);
-        return (filesize($zipFile) > 0);
+        return (is_file($zipFile) && filesize($zipFile) > 0);
     }
 
     /*
      * Download xml zip file
      */
 
-    function get_zip($url, $pathzips, $zipFile) {
-        if (!is_dir($pathzips)) {
-            if (!mkdir($pathzips)) {
-                logger('ERROR', "mkdir failed: $pathzips");
-                exit;
-            }
-        }
+    function get_zip($url, $zipFile) {
         if (!is_file($zipFile)) {
             return $this->get_file($url, $zipFile);
         }
@@ -92,11 +97,10 @@ class Scrapper {
         foreach ($match as $num) {
             $folder .= $num[0];
         }
-        $pathzipsFolder = $this->config['MEDIA_ROOT'] . "/zips";
-        $pathxml = "$pathzipsFolder/$folder";
+        $pathxml = $this->config['BASE_DOWNLOAD'] . "/$folder";
         $zipFile = "{$pathxml}.zip";
 
-        if (!$this->get_zip($url, $pathzipsFolder, $zipFile)) {
+        if (!$this->get_zip($url, $zipFile)) {
             logger('WARN', "file not found: $url");
             return false;
         }
@@ -109,7 +113,12 @@ class Scrapper {
 
             while (false !== ($entry = readdir($handle))) {
                 if (is_file(realpath("$pathxml/$entry"))) {
-                    $this->processor->process("$pathxml/$entry");
+                    try {
+                        $this->processor->process("$pathxml/$entry");
+                    } catch (Exception $ex) {
+                        logger('ERROR', 'EXCEPTION:');
+                        logger('ERROR', $ex->getMessage());
+                    }
                 }
             }
         }
@@ -122,24 +131,33 @@ class Scrapper {
         logger('INFO', "Start import process");
         logger('INFO', "==================================================");
 
-        // Clean previously downloaded files
-        $baseZips = $this->config['MEDIA_ROOT'] . "/zips";
-        if (is_dir($baseZips)) {
-            exec("rm -rf $baseZips");
+        // Clean previously downloaded files and init folders
+        if (is_dir($this->config['BASE_SCRIPT'])) {
+            exec("rm -rf " . $this->config['BASE_SCRIPT']);
         }
-        if (!mkdir($baseZips)) {
-            logger('ERROR', "folder for files could not be created at: $baseZips");
+        if (!mkdir($this->config['BASE_SCRIPT'])) {
+            logger('ERROR', "1folder for files could not be created at: " . $this->config['BASE_SCRIPT']);
+            exit;
+        }
+        if (!mkdir($this->config['BASE_DOWNLOAD'])) {
+            logger('ERROR', "2folder for files could not be created at: " . $this->config['BASE_DOWNLOAD']);
+            exit;
+        }
+        if (!mkdir($this->config['PARTIALS_INDEX'])) {
+            logger('ERROR', "3folder for files could not be created at: " . $this->config['PARTIALS_INDEX']);
             exit;
         }
 
+        // get data from last imported
         $lastImported = (int) $this->ini['last_imported'];
         $first = $lastImported + 1;
         $defaultCounter = (int) $this->config['IMPORT_COUNTER'];
         $last = $first + $defaultCounter;
         $counter = 0;
+        $noExistingCounter = 0;
 
         // Start batch import
-        logger('INFO', "start import batch from [$first to $last]");
+        logger('INFO', "start import batch from [$first to " . ($last - 1) . "]");
         for ($i = $first; $i < $last; $i++) {
             logger('INFO', "importing $i");
             $url = sprintf($this->config['BASE_URL'], $i);
@@ -147,10 +165,21 @@ class Scrapper {
             if ($this->common_handle($url)) {
                 $counter++;
                 $lastImported = $i;
+                $noExistingCounter = 0;
+            } else {
+                $noExistingCounter++;
+                if ($noExistingCounter > $this->config['NO_EXISTING_THRESHOLD']) {
+                    logger('WARN', "too many empty consecutive files (stop)");
+                    break;
+                }
             }
         }
 
-        $this->processor->publishNode($this->config['INDEX_ID']);
+        try {
+            $this->processor->publishIndexNode();
+        } catch (Exception $ex) {
+            logger('ERROR', 'EXCEPTION: failed to publish index node');
+        }
 
         // Log and finish
         logger('INFO', "imported counter: $counter");

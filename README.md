@@ -22,6 +22,15 @@ Para el enriquecimiento del repositorio se usará la [API pública](https://www.
 
 Dado el alto grado de configuración del sistema Ximdex, en el futuro esta misma información XML puede ser procesada para ser mostrada en otros formatos tales como RSS, Markdown, JSON o SmartTV. Y porqué no, formatos que aún no hayan sido ni definidos ni imaginados.
 
+##Ejecución
+
+La ejecución puede ser manual o automática mediante cron.
+Para ello es requisito indispensable que exista el fichero y la ruta:
+[PROJECT]/last-import/last.ini
+El contenido de dicho fichero debe ser una línea donde se inicializa la variable 'last_imported' 
+al valor de la última sesión importada, por ejemplo:
+last_imported = 60
+
 ##El proceso
 
 Se puede dividir el proceso en dos partes fundamentales:
@@ -55,7 +64,7 @@ Este proceso se basa en cuatro apartados:
 * **scripts/scrap.py**: Programa que ejecuta el scraper y la recolección de documentos y llama por cada fichero XML obtenido a 'scripts/loader.php' y por último a 'scripts/publish-index.php'.
 * **LICENSE**: Licencia del código incluído en el repositorio.
 * **README.md**: Soy yo ;)
-* **congreso-transparente.dia**: Esquema del proceso implementado en formato DIA.
-* **congreso-transparente.png**: Esquema del proceso implementado en formato PNG.
-* **index.xml**: Contenido necesario para el documento 'index' que se debe generar como punto de partida del proceso con el objetivo de que sirva de contenedor de todas las votaciones (se irán referenciando en él).
-* **requirements.txt**: Fichero de requerimientos Python a la hora de montar el entorno para ejecutar el scraper. Se recomienda usar [PIP](https://pypi.python.org/pypi/pip "Página del proyecto PIP") junto con [Virtualenv](https://pypi.python.org/pypi/virtualenv "Página del proyecto Virtualenv") o de forma aislada. Ejecuta ``pip install -r requirements.txt``
+* **doc/congreso-transparente.dia**: Esquema del proceso implementado en formato DIA.
+* **doc/congreso-transparente.png**: Esquema del proceso implementado en formato PNG.
+* **doc/index.xml**: Contenido necesario para el documento 'index' que se debe generar como punto de partida del proceso con el objetivo de que sirva de contenedor de todas las votaciones (se irán referenciando en él).
+* **requirements.txt**: Fichero de requerimientos php ejecutar el scraper.
