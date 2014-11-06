@@ -1,4 +1,3 @@
-argparse==1.2.1
-beautifulsoup4==4.3.2
-requests==2.0.0
-wsgiref==0.1.2
+php >= 5.4
+ └--zip (ZipArchive)==1.12.4
+    └--Libzip=0.11.2
