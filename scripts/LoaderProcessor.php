@@ -107,6 +107,14 @@ class LoaderProcessor {
         }
     }
 
+    private function addToIndex($data) {
+        $partialXml = $this->createPartialIndex($data);
+        $this->insertIntoIndexXML($partialXml);
+        // save
+        $fileContentString = preg_replace('/<\?xml([^<]+)>/', '', $this->indexSess->asXML());
+        $this->addContentString($fileContentString, $this->config['INDEX_ID']);
+    }
+
     /*
      * Request index node content and extract data.
      * $ximtoken login token
@@ -139,7 +147,7 @@ class LoaderProcessor {
         return $domDoc;
     }
 
-    private function createPartialIndex($data, $destination) {
+    private function createPartialIndex($data) {
         $partial = new SimpleXMLElement('<partial></partial>');
         $Ses = $partial->addChild('Ses');
         $Ses->Numero = $data['sesion'];
@@ -149,12 +157,10 @@ class LoaderProcessor {
         $Vot->Id = $data['id'];
         $Vot->Fecha = $data['date'];
         $Vot->Titulo = $data['title'];
-        if (!file_put_contents($destination, $partial->asXML())) {
-            throw new Exception("Failed to create partial file: $destination");
-        }
+        return $partial;
     }
 
-    private function overwritePartial($partialXml, $Vot) {
+    private function writePartial($partialXml, $Vot) {
         $Vot->Numero = $partialXml->Ses->Vots->Vot->Numero;
         $Vot->Id = $partialXml->Ses->Vots->Vot->Id;
         $Vot->Fecha = $partialXml->Ses->Vots->Vot->Fecha;
@@ -165,7 +171,7 @@ class LoaderProcessor {
         $Ses->Numero = $partialXml->Ses->Numero;
         $Vots = $Ses->addChild("Vots");
         $Vot = $Vots->addChild('Vot');
-        $this->overwritePartial($partialXml, $Vot);
+        $this->writePartial($partialXml, $Vot);
     }
 
     /*
@@ -174,8 +180,7 @@ class LoaderProcessor {
      * $data array with fields
      */
 
-    private function insertIntoIndexXML($partialPath) {
-        $partialXml = simplexml_load_file($partialPath);
+    private function insertIntoIndexXML($partialXml) {
         $partialSesionNumero = $partialXml->Ses->Numero;
         $partialSesionVotsVot = $partialXml->Ses->Vots->Vot->Numero;
         $Ses = $this->indexSess->xpath("/Sess/Ses[Numero=$partialSesionNumero]");
@@ -190,7 +195,7 @@ class LoaderProcessor {
                 $this->addNewPartial($partialXml, $Ses);
             } else {
                 $Vot = $Vot[0];
-                $this->overwritePartial($partialXml, $Vot);
+                $this->writePartial($partialXml, $Vot);
             }
         }
     }
@@ -217,22 +222,6 @@ class LoaderProcessor {
         return $data_response;
     }
 
-    private function updateIndexContent() {
-        // loop partials
-        $dir = new DirectoryIterator($this->config['PARTIALS_INDEX']);
-
-        // update index xml objec
-        foreach ($dir as $fileinfo) {
-            if (!$fileinfo->isDot()) {
-                $partialPath = realpath($this->config['PARTIALS_INDEX']) . '/' . $fileinfo->getFilename();
-                $this->insertIntoIndexXML($partialPath);
-            }
-        }
-        // save
-        $fileContentString = preg_replace('/<\?xml([^<]+)>/', '', $this->indexSess->asXML());
-        $this->addContentString($fileContentString, $this->config['INDEX_ID']);
-    }
-
     private function doLogin() {
         $credentials = array('user' => $this->config['XIMDEX_USER'], 'pass' => $this->config['XIMDEX_PASS']);
         $result = $this->execute_call("login", $credentials);
@@ -249,7 +238,6 @@ class LoaderProcessor {
     }
 
     public function publishIndexNode() {
-        $this->updateIndexContent();
         $data_publish = array(
             'ximtoken' => $this->ximtoken,
             'nodeid' => $this->config['INDEX_ID'],
@@ -310,12 +298,10 @@ class LoaderProcessor {
             $nodeid = $result_json['data']['container_langs']['es']['nodeid'];
             logger('INFO', "node $workingname will be created (new)");
         }
-        $result = $this->addContentFile($path, $nodeid);
-        $result_json = $this->analizeResult($result);
+        $this->analizeResult($this->addContentFile($path, $nodeid));
 
         // publish node
-        $result = $this->publishNode($nodeid);
-        $result_json = $this->analizeResult($result);
+        $this->analizeResult($this->publishNode($nodeid));
 
         // add info to index node
         $res = $this->returnTitleAndDate($path);
@@ -326,8 +312,8 @@ class LoaderProcessor {
             'date' => $res['date'],
             'title' => $res['title'],
         );
-        $destination = $this->config['PARTIALS_INDEX'] . "/" . basename($path);
-        $this->createPartialIndex($data, $destination);
+
+        $this->addToIndex($data);
     }
 
 }

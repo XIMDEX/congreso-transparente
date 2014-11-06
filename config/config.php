@@ -8,7 +8,7 @@ return array(
     'DOCUMENT_FOLDER_ID' => 11190,
     'XIMDEX_USER' => "ximdex",
     'XIMDEX_PASS' => "ximdexct",
-    'IMPORT_COUNTER' => 20,  // Values greater than 20 are not recommended, do several executions instead
+    'IMPORT_COUNTER' => 50,  // 50 is a good value for a monthly execution
     'IMPORT_FILE' => 'last-import/last.ini',
     'BASE_URL' => 'http://www.congreso.es/votaciones/OpenData?sesion=%d&completa=1&legislatura=10',
     'BASE_SCRIPT' => '/tmp/congreso',
@@ -17,4 +17,6 @@ return array(
     'LANG_SUFFIX' => '-ides',
     'NO_EXISTING_THRESHOLD' => 10,
     'MINIMUM_FREE_SPACE' => 100000000,
+    'GET_FILE_CONNECTION_TIMEOUT' => 10,
+    'GET_FILE_DOWNLOAD_TIMEOUT' => 90
 );

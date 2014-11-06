@@ -1,14 +1,16 @@
 <?php
 
-function cierre() {
-    $error = error_get_last();
-    echo print_r($error, true), PHP_EOL;
-}
-
-register_shutdown_function('cierre');
-
 require_once __DIR__ . '/LoaderProcessor.php';
 require_once __DIR__ . '/logger.php';
+
+function error_shutdown() {
+    $error = error_get_last();
+    if ($error) {
+        logger('ERROR', "Finish with errors:\n" . print_r($error, true));
+    }
+}
+
+register_shutdown_function('error_shutdown');
 
 /*
  * Downloads zip files, uncompress them and send to process.
@@ -22,7 +24,7 @@ class Scrapper {
 
     function __construct() {
         // Load config file
-        $this->config = require_once __DIR__ . '/config.php';
+        $this->config = require_once realpath(__DIR__ . '/../config/config.php');
         if (empty($this->config)) {
             logger('ERROR', 'failed to read config file!');
             exit;
@@ -60,8 +62,8 @@ class Scrapper {
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 90);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->config['GET_FILE_CONNECTION_TIMEOUT']);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $this->config['GET_FILE_DOWNLOAD_TIMEOUT']);
         curl_setopt($ch, CURLOPT_FILE, $fp);
         curl_exec($ch);
         curl_close($ch);
@@ -98,6 +100,7 @@ class Scrapper {
             $folder .= $num[0];
         }
         $pathxml = $this->config['BASE_DOWNLOAD'] . "/$folder";
+        $folderToClean = $this->config['BASE_DOWNLOAD'] . "/*";
         $zipFile = "{$pathxml}.zip";
 
         if (!$this->get_zip($url, $zipFile)) {
@@ -121,6 +124,7 @@ class Scrapper {
                     }
                 }
             }
+            exec("rm -rf $folderToClean");
         }
 
         return true;
