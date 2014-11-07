@@ -10,6 +10,11 @@ class LoaderProcessor {
 
     public function __construct($config) {
         $this->config = $config;
+        // do login (get api token)
+        $this->doLogin();
+
+        // load index node DOM
+        $this->indexSess = $this->loadIndexData();
     }
 
     /*
@@ -25,8 +30,7 @@ class LoaderProcessor {
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $result = curl_exec($ch);
-        return $result;
+        return curl_exec($ch);
     }
 
     /*
@@ -226,7 +230,12 @@ class LoaderProcessor {
         $credentials = array('user' => $this->config['XIMDEX_USER'], 'pass' => $this->config['XIMDEX_PASS']);
         $result = $this->execute_call("login", $credentials);
         $result_json = $this->analizeResult($result);
+        if (!isset($result_json['data']['ximtoken'])) {
+            logger('FATAL', 'token could not be retrieved!');
+            exit;
+        }
         $this->ximtoken = $result_json['data']['ximtoken'];
+        logger('INFO', "TOKEN: {$this->ximtoken}");
     }
 
     private function publishNode($nodeid) {
@@ -234,7 +243,7 @@ class LoaderProcessor {
             'ximtoken' => $this->ximtoken,
             'nodeid' => $nodeid,
         );
-        return $this->execute_call("node/publish", $data_publish);
+        return $this->execute_call('node/publish', $data_publish);
     }
 
     public function publishIndexNode() {
@@ -242,7 +251,7 @@ class LoaderProcessor {
             'ximtoken' => $this->ximtoken,
             'nodeid' => $this->config['INDEX_ID'],
         );
-        return $this->execute_call("node/publish", $data_publish);
+        return $this->execute_call('node/publish', $data_publish);
     }
 
     /*
@@ -259,30 +268,28 @@ class LoaderProcessor {
         $votacion = $voteData['votacion'];
         logger('INFO', "import: sesion=$sesion :: votacion=$votacion");
 
-        // do login (get api token)
-        $this->doLogin();
-
-        // load index node DOM
-        $this->indexSess = $this->loadIndexData();
-
         // create node
+        $lang = $this->config['LANG_SUFFIX'];
         $data_request_1 = array(
             'ximtoken' => $this->ximtoken,
             'nodeid' => $this->config['DOCUMENT_FOLDER_ID'],
             'name' => $workingname,
             'id_schema' => $this->config['RNG_NODE_ID'],
-            'channels' => "10001",
-            'languages' => "es",
+            'channels' => $this->config['PUBLISH_CHANNELS_IDS'],
+            'languages' => $lang,
         );
-        $result = $this->execute_call("node/createxml", $data_request_1);
+        $result = $this->execute_call('node/createxml', $data_request_1);
         $result_json = $this->analizeResult($result);
 
         // fill node content, overwrite if already exists
-        if (!isset($result_json['data']['container_langs']['es']['nodeid'])) {
+        if (!isset($result_json['data']['container_langs'][$lang]['nodeid'])) {
             logger('WARN', "failed to create node: $workingname");
+            if (isset($result_json['message'])) {
+                logger('WARN', $result_json['message']);
+            }
             $search = array(
                 'ximtoken' => $this->ximtoken,
-                'name' => $workingname . $this->config['LANG_SUFFIX']
+                'name' => $workingname . $this->config['DOC_SUFFIX']
             );
             $result = $this->execute_call("search", $search);
             $result_json = $this->analizeResult($result);
@@ -295,8 +302,8 @@ class LoaderProcessor {
                 throw new Exception($err);
             }
         } else {
-            $nodeid = $result_json['data']['container_langs']['es']['nodeid'];
-            logger('INFO', "node $workingname will be created (new)");
+            $nodeid = $result_json['data']['container_langs'][$lang]['nodeid'];
+            logger('INFO', "node $workingname will be created (new): $nodeid");
         }
         $this->analizeResult($this->addContentFile($path, $nodeid));
 

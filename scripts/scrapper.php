@@ -147,11 +147,7 @@ class Scrapper {
             logger('ERROR', "2folder for files could not be created at: " . $this->config['BASE_DOWNLOAD']);
             exit;
         }
-        if (!mkdir($this->config['PARTIALS_INDEX'])) {
-            logger('ERROR', "3folder for files could not be created at: " . $this->config['PARTIALS_INDEX']);
-            exit;
-        }
-
+        
         // get data from last imported
         $lastImported = (int) $this->ini['last_imported'];
         $first = $lastImported + 1;
