@@ -2,17 +2,17 @@
 
 // "Congreso transparente" parameters configuration 
 return array(
-    'URL_XIMDEX' => "http://lab13.ximdex.net/ximdex/api",
-    'INDEX_ID' => 10423,                    // index-idex node id
-    'RNG_NODE_ID' => 10175,                 // relax-ng node id
-    'DOCUMENT_FOLDER_ID' => 10616,          // document folder node id
-    'LANG_SUFFIX' => 'en',                  // could be en, es...
-    'DOC_SUFFIX' => '-iden',                // could be -ides, -iden... related with previous
-    'PUBLISH_CHANNELS_IDS' => '10001,10218',// channels id as in table Channels (separated with comma) 
+    'URL_XIMDEX' => "http://localhost/ximdex/api",
+    'INDEX_ID' => 12026,                    // index-idex node id
+    'RNG_NODE_ID' => 10755,                 // relax-ng node id
+    'DOCUMENT_FOLDER_ID' => 12262,          // document folder node id
+    'LANG_SUFFIX' => 'es',                  // could be en, es...
+    'DOC_SUFFIX' => '-ides',                // could be -ides, -iden... related with previous
+    'PUBLISH_CHANNELS_IDS' => '10001',// channels id as in table Channels (separated with comma) 
     'XIMDEX_USER' => "ximdex",              
     'XIMDEX_PASS' => "ximdex",
     'IMPORT_COUNTER' => 6,                  // 50 is a good value for a monthly execution
-    'IMPORT_FILE' => 'last-import/last.ini',
+    'IMPORT_FILE' => '/var/www/congreso-transparente/last-import/last.ini',
     'BASE_URL' => 'http://www.congreso.es/votaciones/OpenData?sesion=%d&completa=1&legislatura=10',
     'BASE_SCRIPT' => '/tmp/congreso',       // ensure this folder can be created or it has write permissions.
     'BASE_DOWNLOAD' => '/tmp/congreso/download',

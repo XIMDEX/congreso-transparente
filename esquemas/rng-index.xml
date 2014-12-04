@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0" xmlns:xim="http://ximdex.com/schema/1.0">
-              	<start>
-              		<element name ="docxap">           			
-                             	<ref name="sesiones.class"/>
-              		</element>
-              	</start>
-     
-     
-     <define name="sesiones.class">
-       <element name="Sess">
-       	<oneOrMore>
-           <ref name="ses.class"/>        
-         </oneOrMore>
-       </element>
-   </define>
-   
-   <define name="ses.class">
-     <element name="Ses">
-       <ref name="numero.class"/>    
-       <ref name="vots.class"/>  
-     </element>
-   </define>
-   
-   <define name="numero.class">
-     <element name="Numero">
-       <text/>
-     </element>
-   </define>
-   
-   <define name="vots.class">
-     <element name="Vots">
-       <oneOrMore>
-           <ref name="vot.class"/>        
-         </oneOrMore>
-     </element>
-   </define>
-   
-   <define name="vot.class">
-     <element name="Vot">
-       <ref name="numero.class"/>
-       <ref name="id.class"/>
-       <ref name="fecha.class"/>
-       <ref name="titulo.class"/>
-     </element>
-   </define>
-   
-   <define name="id.class">
-     <element name="Id">
-       <text/>
-     </element>
-   </define>
-  
-  <define name="fecha.class">
-     <element name="Fecha">
-       <text/>
-     </element>
-   </define>
-  
-  <define name="titulo.class">
-     <element name="Titulo">
-       <text/>
-     </element>
-   </define>
-              	
+    <start>
+        <element name ="docxap">
+            <ref name="sesiones.class"/>
+        </element>
+    </start>
+
+
+    <define name="sesiones.class">
+        <element name="Sess">
+            <zeroOrMore>
+                <ref name="ses.class"/>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="ses.class">
+        <element name="Ses">
+            <ref name="numero.class"/>
+            <ref name="vots.class"/>
+        </element>
+    </define>
+
+    <define name="numero.class">
+        <element name="Numero">
+            <text/>
+        </element>
+    </define>
+
+    <define name="vots.class">
+        <element name="Vots">
+            <oneOrMore>
+                <ref name="vot.class"/>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <define name="vot.class">
+        <element name="Vot">
+            <ref name="numero.class"/>
+            <ref name="id.class"/>
+            <ref name="fecha.class"/>
+            <ref name="titulo.class"/>
+        </element>
+    </define>
+
+    <define name="id.class">
+        <element name="Id">
+            <text/>
+        </element>
+    </define>
+
+    <define name="fecha.class">
+        <element name="Fecha">
+            <text/>
+        </element>
+    </define>
+
+    <define name="titulo.class">
+        <element name="Titulo">
+            <text/>
+        </element>
+    </define>
+
 </grammar>

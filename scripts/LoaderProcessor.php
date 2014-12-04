@@ -312,10 +312,11 @@ class LoaderProcessor {
 
         // add info to index node
         $res = $this->returnTitleAndDate($path);
+
         $data = array(
             'sesion' => $sesion,
             'votacion' => $votacion,
-            'id' => $this->config['INDEX_ID'],
+            'id' => $nodeid,
             'date' => $res['date'],
             'title' => $res['title'],
         );
